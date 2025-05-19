@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agitha Samit Thayiil - Community Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts for beautiful typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #6e8efb, #a777e3, #fbc2eb, #fad0c4);
+            min-height: 100vh;
+            color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background: rgba(255,255,255,0.8);
+            width: 100%;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            color: #6e8efb;
+        }
+        .info {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: #444;
+        }
+        .chat-container {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .live-time {
+            font-size: 1rem;
+            color: #a777e3;
+            font-weight: bold;
+        }
+        .user-list {
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+            color: #555;
+        }
+        .messages {
+            min-height: 150px;
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 1rem;
+            background: #f7f7fa;
+            margin-bottom: 1rem;
+        }
+        .message {
+            margin-bottom: 0.7rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            background: #e3e9fc;
+            color: #333;
+            max-width: 80%;
+            word-break: break-word;
+        }
+        .message.self {
+            background: #fad0c4;
+            align-self: flex-end;
+            text-align: right;
+        }
+        .chat-input-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+        input, button {
+            font-family: inherit;
+            font-size: 1rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            padding: 0.5rem 1rem;
+            outline: none;
+        }
+        button {
+            background: #6e8efb;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #a777e3;
+        }
+        .add-user-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        footer {
+            margin-top: auto;
+            padding: 1rem 0;
+            width: 100%;
+            text-align: center;
+            background: rgba(255,255,255,0.7);
+            font-size: 1rem;
+            color: #555;
+        }
+        .moderation {
+            font-size: 0.95rem;
+            color: #a777e3;
+            margin-top: 0.5rem;
+        }
+        .advanced-features {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: #444;
+            background: #fbc2eb;
+            border-radius: 8px;
+            padding: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Agitha Samit Thayiil</h1>
+        <div class="info">
+            Community & Public Chat Platform<br>
+            Made by <b>Samit</b>
+        </div>
+    </header>
+    <div class="chat-container">
+        <div class="chat-header">
+            <span>Welcome, <span id="userGmail">Guest</span></span>
+            <span class="live-time" id="liveTime"></span>
+        </div>
+        <div class="moderation">
+            Moderated by: <a href="mailto:rndmgames9@gmail.com">rndmgames9@gmail.com</a>
+        </div>
+        <div class="add-user-row">
+            <input type="email" id="addUserInput" placeholder="Add user by Gmail" />
+            <button onclick="addUser()">Add</button>
+        </div>
+        <div class="user-list" id="userList">
+            <b>Participants:</b> <span id="participants">You</span>
+        </div>
+        <div class="messages" id="messages"></div>
+        <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="Type your message..." onkeydown="if(event.key==='Enter'){sendMessage();}" />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        <div class="advanced-features">
+            <b>Advanced Features:</b>
+            <ul>
+                <li>Add participants by Gmail</li>
+                <li>Live date & time</li>
+                <li>Moderation by admin</li>
+                <li>Beautiful, responsive design</li>
+                <li>Auto-scroll chat</li>
+                <li>Basic profanity filter</li>
+            </ul>
+        </div>
+    </div>
+    <footer>
+        &copy; 2024 Agitha Samit Thayiil | Contact: <a href="mailto:rndmgames9@gmail.com">rndmgames9@gmail.com</a>
+    </footer>
+    <script>
+        // Live date and time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('liveTime').textContent = now.toLocaleString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // User login (prompt for Gmail)
+        let userGmail = '';
+        function promptGmail() {
+            let email = prompt("Enter your Gmail to join the chat:");
+            while (!email || !/^[\w.+-]+@gmail\.com$/.test(email)) {
+                email = prompt("Please enter a valid Gmail address:");
+            }
+            userGmail = email;
+            document.getElementById('userGmail').textContent = userGmail;
+            participants = [userGmail];
+            updateParticipants();
+        }
+        promptGmail();
+
+        // Participants management
+        let participants = [userGmail];
+        function addUser() {
+            const input = document.getElementById('addUserInput');
+            const email = input.value.trim();
+            if (email && /^[\w.+-]+@gmail\.com$/.test(email) && !participants.includes(email)) {
+                participants.push(email);
+                updateParticipants();
+                input.value = '';
+            } else {
+                alert('Enter a valid and unique Gmail address.');
+            }
+        }
+        function updateParticipants() {
+            document.getElementById('participants').textContent = participants.join(', ');
+        }
+
+        // Basic profanity filter
+        const badWords = ['badword1', 'badword2', 'badword3'];
+        function filterProfanity(text) {
+            let filtered = text;
+            badWords.forEach(word => {
+                const regex = new RegExp(word, 'gi');
+                filtered = filtered.replace(regex, '****');
+            });
+            return filtered;
+        }
+
+        // Chat functionality (local only)
+        const messagesDiv = document.getElementById('messages');
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            let msg = input.value.trim();
+            if (!msg) return;
+            msg = filterProfanity(msg);
+            addMessage(userGmail, msg, true);
+            input.value = '';
+        }
+        function addMessage(sender, text, self=false) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message' + (self ? ' self' : '');
+            msgDiv.innerHTML = `<b>${sender}:</b> ${text}`;
+            messagesDiv.appendChild(msgDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        // Example: Welcome message
+        addMessage('System', 'Welcome to Agitha Samit Thayiil chat!', false);
+    </script>
+</body>
+</html>
